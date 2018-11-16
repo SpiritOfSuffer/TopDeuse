@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
+import { User } from '../entities/User';
 import { Repository } from 'typeorm';
-import { RegisterUserDto } from '../dto/register-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { RegisterUserDto } from '../dto/RegisterUserDto';
+import { UpdateUserDto } from '../dto/UpdateUserDto';
 import { ADDRGETNETWORKPARAMS } from 'dns';
 
  @Injectable()

@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './controllers/user.controller';
-import { UserService } from './services/user.service';
+import { UserController } from './controllers/UserController';
+import { UserService } from './services/UserService';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-import { AuthService } from './services/auth.service';
-//import { PassportModule } from '@nestjs/passport';
+import { User } from './entities/User';
+import { AuthService } from './services/AuthService';
+import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { JwtStrategy } from './strategy/jwt.strategy';
+import { JwtStrategy } from './strategy/JwtStrategy';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    //PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secretOrPrivateKey: 'secretKey',
       signOptions: {

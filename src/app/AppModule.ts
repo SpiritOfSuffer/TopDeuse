@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from '../user/user.module';
-import { AppController } from './app.controller';
-import { UserController } from '../user/controllers/user.controller';
-import { UserService } from '../user/services/user.service';
-import { AuthService } from '../user/services/auth.service';
-import { AppService } from './app.service';
+import { UserModule } from '../user/UserModule';
+import { AppController } from './AppController';
+import { UserController } from '../user/controllers/UserController';
+import { UserService } from '../user/services/UserService';
+import { AuthService } from '../user/services/AuthService';
+import { AppService } from './AppService';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import {User} from "../user/entities/user.entity";
+import {User} from "../user/entities/User";
 
 
 @Module({

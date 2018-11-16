@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { RegisterUserDto } from '../dto/register-user.dto';
+import { RegisterUserDto } from '../dto/RegisterUserDto';
 import { Exclude } from 'class-transformer';
 
  @Entity()

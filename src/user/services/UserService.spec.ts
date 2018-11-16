@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from './user.service';
+import { UserService } from './UserService';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
-import { RegisterUserDto } from '../dto/register-user.dto';
+import { User } from '../entities/User';
+import { RegisterUserDto } from '../dto/RegisterUserDto';
 import { BadGatewayException } from '@nestjs/common';
 import { async } from 'rxjs/internal/scheduler/async';
 

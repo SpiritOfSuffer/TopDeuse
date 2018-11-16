@@ -1,16 +1,16 @@
 import { Controller, UseGuards, Post, Body, Get, Delete, UseInterceptors, Param, ParseIntPipe, Req } from '@nestjs/common';
-import { RolesGuard } from '../guards/roles.guard';
-import { RegisterUserDto } from '../dto/register-user.dto';
-import { UserService } from '../services/user.service';
-import { User } from '../entities/user.entity';
-import { Roles } from '../decorators/roles.decorator';
-import { TransformInterceptor } from '../interceptors/transform.interceptor';
+import { RolesGuard } from '../guards/RolesGuard';
+import { RegisterUserDto } from '../dto/RegisterUserDto';
+import { UserService } from '../services/UserService';
+import { User } from '../entities/User';
+import { Roles } from '../decorators/Roles';
+import { TransformInterceptor } from '../interceptors/TransformInterceptor';
 import { async } from 'rxjs/internal/scheduler/async';
 import { AuthGuard } from '@nestjs/passport';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { AuthService } from '../services/auth.service';
-import { LoginUserDto } from '../dto/login-user.dto';
-import { AccessDeniedException } from '../exceptions/access-denied.exception';
+import { UpdateUserDto } from '../dto/UpdateUserDto';
+import { AuthService } from '../services/AuthService';
+import { LoginUserDto } from '../dto/LoginUserDto';
+import { AccessDeniedException } from '../exceptions/AccessDeniedException';
 
 @Controller('users')
 @UseGuards(RolesGuard)
