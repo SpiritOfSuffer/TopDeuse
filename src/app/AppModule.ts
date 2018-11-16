@@ -7,7 +7,8 @@ import { AuthService } from '../user/services/AuthService';
 import { AppService } from './AppService';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import {User} from "../user/entities/User";
+import { User } from "../user/entities/User";
+import { ACGuard, UseRoles } from "nest-access-control";
 
 
 @Module({

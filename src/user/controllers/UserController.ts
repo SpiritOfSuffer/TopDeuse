@@ -1,9 +1,9 @@
 import { Controller, UseGuards, Post, Body, Get, Delete, UseInterceptors, Param, ParseIntPipe, Req } from '@nestjs/common';
-import { RolesGuard } from '../guards/RolesGuard';
+//import { RolesGuard } from '../guards/RolesGuard';
 import { RegisterUserDto } from '../dto/RegisterUserDto';
 import { UserService } from '../services/UserService';
 import { User } from '../entities/User';
-import { Roles } from '../decorators/Roles';
+//import { Roles } from '../decorators/Roles';
 import { TransformInterceptor } from '../interceptors/TransformInterceptor';
 import { async } from 'rxjs/internal/scheduler/async';
 import { AuthGuard } from '@nestjs/passport';
@@ -11,9 +11,11 @@ import { UpdateUserDto } from '../dto/UpdateUserDto';
 import { AuthService } from '../services/AuthService';
 import { LoginUserDto } from '../dto/LoginUserDto';
 import { AccessDeniedException } from '../exceptions/AccessDeniedException';
+import { ACGuard, UseRoles } from 'nest-access-control';
+import { UserRoles } from '../enums/UserRoles';
+
 
 @Controller('users')
-@UseGuards(RolesGuard)
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -21,7 +23,6 @@ export class UserController {
   ) {}
 
   @Get('/')
-  @Roles('guest')
   @UseInterceptors(TransformInterceptor)
   async findAll() {
     return this.userService.findAll();
@@ -38,20 +39,32 @@ export class UserController {
   }
 
   @Post('/:id')
-  @UseGuards(AuthGuard(''), RolesGuard)
-  @Roles('user', 'admin')
-  async update(@Param('id', new ParseIntPipe()) id: number, @Body() updateUserDto: UpdateUserDto, @Req() req): Promise<User> {
+  @UseGuards(AuthGuard(), ACGuard)
+  @UseRoles({
+    resource: 'profile',
+    action: 'update',
+    possession: 'own',
+  })
+  async update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() updateUserDto: UpdateUserDto, 
+    @Req() req): Promise<User> {
 
-    if (req.user.role == 'user' && req.user.id !== id) {
+    if (req.user.role == UserRoles.USER && req.user.id !== id) {
       throw new AccessDeniedException();
     } 
 
     return await this.userService.update(id, updateUserDto); 
   }
 
+  
   @Delete('/:id')
-  @UseGuards(AuthGuard(''), RolesGuard)
-  @Roles('user', 'admin')
+  @UseGuards(AuthGuard(), ACGuard)
+  @UseRoles({
+    resource: 'profile',
+    action: 'update',
+    possession: 'own',
+  })
   async delete(@Param('id', new ParseIntPipe()) id: number): Promise<string> {
     try {
       await this.userService.delete(id);

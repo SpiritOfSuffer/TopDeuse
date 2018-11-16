@@ -18,6 +18,11 @@ export class User {
   @Exclude()
   password: string;
   
+
+  get roles() {
+    return [this.role];
+  }
+
    @Column()
   role: string;
    public static fromRegisterUserDto(registerUserDto: RegisterUserDto): User {

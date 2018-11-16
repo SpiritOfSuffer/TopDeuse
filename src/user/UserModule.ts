@@ -7,11 +7,14 @@ import { AuthService } from './services/AuthService';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/JwtStrategy';
+import { roles } from './Roles';
+import { AccessControlModule } from 'nest-access-control';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    AccessControlModule.forRoles(roles),
     JwtModule.register({
       secretOrPrivateKey: 'secretKey',
       signOptions: {
