@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './UserService';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../entities/User';
-import { RegisterUserDto } from '../dto/RegisterUserDto';
+import { CreateUserDto } from '../dto/CreateUserDto';
 import { BadGatewayException } from '@nestjs/common';
 import { async } from 'rxjs/internal/scheduler/async';
 
@@ -44,12 +44,12 @@ import { async } from 'rxjs/internal/scheduler/async';
   });
 
   it('should register user', async () => {
-    const registerUserDto = new RegisterUserDto();
-    Object.assign(registerUserDto, {
+    const createUserDto = new CreateUserDto();
+    Object.assign(createUserDto, {
       email: 'test@gmail.com',
       fullname: 'vvv',
       password: 'root',
     });
-    expect((await service.register(registerUserDto)).fullname).toEqual("vvv");
+    expect((await service.create(createUserDto)).fullname).toEqual("vvv");
   });
 });

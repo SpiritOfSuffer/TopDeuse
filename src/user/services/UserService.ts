@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/User';
 import { Repository } from 'typeorm';
-import { RegisterUserDto } from '../dto/RegisterUserDto';
+import { CreateUserDto } from '../dto/CreateUserDto';
 import { UpdateUserDto } from '../dto/UpdateUserDto';
 import { ADDRGETNETWORKPARAMS } from 'dns';
 
@@ -25,7 +25,7 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email, password }});
   }
 
-  async register(userDto: RegisterUserDto): Promise<User> {
+  async create(userDto: CreateUserDto): Promise<User> {
     return await this.userRepository.save(User.fromRegisterUserDto(userDto));
   }
 
@@ -33,7 +33,6 @@ export class UserService {
     const user = await this.userRepository.findOne(id);
      if (user) {
       user.fullname = updateUserDto.fullname;
-      user.password = updateUserDto.password;
       return await this.userRepository.save(user);
     }
   }

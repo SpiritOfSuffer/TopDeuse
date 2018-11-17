@@ -1,7 +1,7 @@
 import { IsString, IsEmail } from 'class-validator';
 import { User } from '../entities/User';
 
-export class RegisterUserDto {
+export class CreateUserDto {
     @IsEmail() readonly email: string;
     @IsString() readonly fullname: string;
     @IsString() readonly password: string;

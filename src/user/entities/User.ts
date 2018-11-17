@@ -1,6 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { RegisterUserDto } from '../dto/RegisterUserDto';
+import { CreateUserDto } from '../dto/CreateUserDto';
 import { Exclude } from 'class-transformer';
+import { IsNotEmpty } from 'class-validator';
+import * as bcrypt from 'bcryptjs';
 
  @Entity()
 export class User {
@@ -8,13 +10,17 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-   @Column()
+  @Column({
+    unique: true,
+    nullable: false
+  })
+  @IsNotEmpty()
   email: string;
 
-   @Column()
+  @Column()
   fullname: string;
 
-   @Column()
+  @Column()
   @Exclude()
   password: string;
   
@@ -23,13 +29,13 @@ export class User {
     return [this.role];
   }
 
-   @Column()
+  @Column()
   role: string;
-   public static fromRegisterUserDto(registerUserDto: RegisterUserDto): User {
+   public static fromRegisterUserDto(createUserDto: CreateUserDto): User {
     const user = new User();
-    user.email = registerUserDto.email;
-    user.fullname = registerUserDto.fullname;
-    user.password = registerUserDto.password;
+    user.email = createUserDto.email;
+    user.fullname = createUserDto.fullname;
+    user.password = bcrypt.hashSync(createUserDto.password, 10)
     user.role = 'user';
     return user;
   }

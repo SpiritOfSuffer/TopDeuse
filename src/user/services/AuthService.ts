@@ -3,6 +3,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from '../interfaces/JwtPayload';
 import { LoginUserDto } from '../dto/LoginUserDto';
+import * as bcrypt from 'bcryptjs';
+import { InvalidCredentialsException } from '../exceptions/InvalidCredentialsException';
 
 @Injectable()
 export class AuthService {
@@ -21,10 +23,10 @@ export class AuthService {
     }
 
     async login(loginUserDto: LoginUserDto): Promise<string> {
-        const user = await this.userService.findOneByEmailAndPassword(loginUserDto.email, loginUserDto.password);
+        const user = await this.userService.findOneByEmail(loginUserDto.email);
         
-        if (!user) {
-            throw new NotFoundException();
+        if (!user || !bcrypt.compareSync(loginUserDto.password, user.password)) {
+            throw new InvalidCredentialsException();
         }
 
         return this.signIn(user.email);

@@ -1,9 +1,7 @@
 import { Controller, UseGuards, Post, Body, Get, Delete, UseInterceptors, Param, ParseIntPipe, Req } from '@nestjs/common';
-//import { RolesGuard } from '../guards/RolesGuard';
-import { RegisterUserDto } from '../dto/RegisterUserDto';
+import { CreateUserDto } from '../dto/CreateUserDto';
 import { UserService } from '../services/UserService';
 import { User } from '../entities/User';
-//import { Roles } from '../decorators/Roles';
 import { TransformInterceptor } from '../interceptors/TransformInterceptor';
 import { async } from 'rxjs/internal/scheduler/async';
 import { AuthGuard } from '@nestjs/passport';
@@ -16,6 +14,7 @@ import { UserRoles } from '../enums/UserRoles';
 
 
 @Controller('users')
+@UseInterceptors(TransformInterceptor)
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -23,14 +22,13 @@ export class UserController {
   ) {}
 
   @Get('/')
-  @UseInterceptors(TransformInterceptor)
   async findAll() {
     return this.userService.findAll();
   }
 
   @Post('/')
-  async register(@Body() registerUserDto: RegisterUserDto): Promise<User> {
-    return await this.userService.register(registerUserDto);
+  async register(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return await this.userService.create(createUserDto);
   }
 
   @Post('/login')
