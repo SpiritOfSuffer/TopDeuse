@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { User } from "../user/entities/User";
 import { ACGuard, UseRoles } from "nest-access-control";
+import { MailerModule } from '@nest-modules/mailer';
 
 
 @Module({
@@ -20,7 +21,8 @@ import { ACGuard, UseRoles } from "nest-access-control";
       password: "root",
       database: "test",
       entities: [User]
-  })
+  }),
+  MailerModule.forRoot(),
 ],
   controllers: [
     AppController,

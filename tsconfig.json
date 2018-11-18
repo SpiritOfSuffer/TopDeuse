@@ -15,7 +15,7 @@
     "baseUrl": "./"
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "mailerconfig.ts"
   ],
   "exclude": [
     "node_modules",

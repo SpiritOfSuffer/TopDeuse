@@ -6,6 +6,7 @@ import { LoginUserDto } from '../dto/LoginUserDto';
 import * as bcrypt from 'bcryptjs';
 import { InvalidCredentialsException } from '../exceptions/InvalidCredentialsException';
 
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -13,22 +14,22 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    async signIn(email: string): Promise<string> {
-        const user: JwtPayload = { email };
+    async signIn(login: string): Promise<string> {
+        const user: JwtPayload = { login };
         return this.jwtService.sign(user);
     }
 
     async validateUser(jwtPayload: JwtPayload): Promise<any> {
-        return await this.userService.findOneByEmail(jwtPayload.email);
+        return await this.userService.findOneByLogin(jwtPayload.login);
     }
 
     async login(loginUserDto: LoginUserDto): Promise<string> {
-        const user = await this.userService.findOneByEmail(loginUserDto.email);
+        const user = await this.userService.findOneByLogin(loginUserDto.login);
         
         if (!user || !bcrypt.compareSync(loginUserDto.password, user.password)) {
             throw new InvalidCredentialsException();
         }
 
-        return this.signIn(user.email);
+        return this.signIn(user.login);
     }
 }

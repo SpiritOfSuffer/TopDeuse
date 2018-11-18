@@ -1,32 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/User';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/CreateUserDto';
 import { UpdateUserDto } from '../dto/UpdateUserDto';
 import { ADDRGETNETWORKPARAMS } from 'dns';
+import { MailerProvider } from '@nest-modules/mailer';
+import { ConfigService } from '../../config/ConfigService';
 
  @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @Inject('MailerProvider') private readonly mailerProvider: MailerProvider,
+    private readonly config: ConfigService,
   ) {}
 
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async findOneByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { email }});
+  async findOneByLogin(login: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { login }});
   }
 
-  async findOneByEmailAndPassword(email: string, password: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { email, password }});
+  async findOneByLoginAndPassword(login: string, password: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { login, password }});
   }
 
-  async create(userDto: CreateUserDto): Promise<User> {
-    return await this.userRepository.save(User.fromRegisterUserDto(userDto));
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const user = await this.userRepository.save(User.fromRegisterUserDto(createUserDto));
+    
+    this.mailerProvider.sendMail({
+      to: user.email,
+      from: this.config.get('EMAIL_FROM'),
+      subject: this.config.get('EMAIL_SUBJECT').replace('{{{FULLNAME}}}', user.fullname),
+      html: this.config.get('EMAIL_BODY').replace('{{{LOGIN}}}', user.login),
+    });
+
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
