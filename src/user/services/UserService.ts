@@ -7,6 +7,8 @@ import { UpdateUserDto } from '../dto/UpdateUserDto';
 import { ADDRGETNETWORKPARAMS } from 'dns';
 import { MailerProvider } from '@nest-modules/mailer';
 import { ConfigService } from '../../config/ConfigService';
+import { ResetUserPasswordDto } from '../dto/ResetUserPasswordDto';
+import * as bcrypt from 'bcryptjs';
 
  @Injectable()
 export class UserService {
@@ -27,6 +29,10 @@ export class UserService {
 
   async findOneByLoginAndPassword(login: string, password: string): Promise<User> {
     return await this.userRepository.findOne({ where: { login, password }});
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { email }});
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -52,5 +58,22 @@ export class UserService {
 
   async delete(id: number): Promise<void> {
     await this.userRepository.delete(id);
+  }
+
+  async reset(id: number, resetUserPasswordDto: ResetUserPasswordDto): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+    if (user) {
+      user.password = bcrypt.hashSync(resetUserPasswordDto.password, 10)
+      this.mailerProvider.sendMail({
+        to: user.email,
+        from: this.config.get('EMAIL_FROM'),
+        subject: this.config.get('RESETPASSWORD_SUBJECT').replace('{{{FULLNAME}}}', user.fullname),
+        html: this.config.get('RESETPASSWORD_BODY').replace('{{{PASSWORD}}}', resetUserPasswordDto.password),
+      });
+
+      console.log(user.email);
+      console.log(resetUserPasswordDto.password);
+      return await this.userRepository.save(user);
+    }
   }
 }

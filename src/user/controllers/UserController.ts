@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body, Get, Delete, UseInterceptors, Param, ParseIntPipe, Req } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Delete, UseInterceptors, Param, ParseIntPipe, Req, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/CreateUserDto';
 import { UserService } from '../services/UserService';
 import { User } from '../entities/User';
@@ -11,6 +11,7 @@ import { LoginUserDto } from '../dto/LoginUserDto';
 import { AccessDeniedException } from '../exceptions/AccessDeniedException';
 import { ACGuard, UseRoles } from 'nest-access-control';
 import { UserRoles } from '../enums/UserRoles';
+import { ResetUserPasswordDto } from '../dto/ResetUserPasswordDto';
 
 
 @Controller('users')
@@ -72,5 +73,12 @@ export class UserController {
     catch (err) {
       return err;
     }
+  }
+
+  @Post('/resetPassword/:id')
+  async reset(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() resetUserPasswordDto: ResetUserPasswordDto,) : Promise<User> {
+    return await this.userService.reset(id, resetUserPasswordDto);
   }
 }
