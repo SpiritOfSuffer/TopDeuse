@@ -23,6 +23,10 @@ export class UserService {
     return this.userRepository.find();
   }
 
+  async findOneById(id: number): Promise<User> {
+    return  this.userRepository.findOne(id);
+  }
+
   async findOneByLogin(login: string): Promise<User> {
     return await this.userRepository.findOne({ where: { login }});
   }
@@ -71,8 +75,6 @@ export class UserService {
         html: this.config.get('RESETPASSWORD_BODY').replace('{{{PASSWORD}}}', resetUserPasswordDto.password),
       });
 
-      console.log(user.email);
-      console.log(resetUserPasswordDto.password);
       return await this.userRepository.save(user);
     }
   }

@@ -5,11 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/User';
 import { AuthService } from './services/AuthService';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/JwtStrategy';
 import { roles } from './Roles';
-import { AccessControlModule } from 'nest-access-control';
+import { AccessControlModule, RolesBuilder } from 'nest-access-control';
 import { ConfigModule } from '../config/ConfigModule';
+import { UserResolver } from './resolvers/UserResolver';
+import { GraphQLModule } from '@nestjs/graphql';
+import { GqlAuthGuard } from './guards/GqlAuthGuard';
+
 
 @Module({
   imports: [
@@ -23,9 +27,25 @@ import { ConfigModule } from '../config/ConfigModule';
         expiresIn: 3600,
       },
     }),
+    GraphQLModule.forRoot({
+      typePaths: ['./**/*.graphql'],
+      context: ({ req }) => {
+        return { req };
+      },
+    }),
 ],
   controllers: [UserController],
-  providers: [UserService, AuthService, JwtStrategy],
+  providers: [
+    UserService,
+    AuthService,
+    JwtStrategy,
+    UserResolver,
+    {
+      provide: RolesBuilder,
+      useValue: roles,
+    },
+    GqlAuthGuard,
+  ],
   exports: [UserService],
 })
 export class UserModule {}

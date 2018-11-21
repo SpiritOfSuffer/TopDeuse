@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from '../interfaces/JwtPayload';
 import { LoginUserDto } from '../dto/LoginUserDto';
+import { User } from '../entities/User';
 import * as bcrypt from 'bcryptjs';
 import { InvalidCredentialsException } from '../exceptions/InvalidCredentialsException';
 
@@ -19,7 +20,7 @@ export class AuthService {
         return this.jwtService.sign(user);
     }
 
-    async validateUser(jwtPayload: JwtPayload): Promise<any> {
+    async validateUser(jwtPayload: JwtPayload): Promise<User> {
         return await this.userService.findOneByLogin(jwtPayload.login);
     }
 
