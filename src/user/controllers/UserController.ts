@@ -1,17 +1,17 @@
 import { Controller, UseGuards, Post, Body, Get, Delete, UseInterceptors, Param, ParseIntPipe, Req, BadRequestException } from '@nestjs/common';
-import { CreateUserDto } from '../dto/CreateUserDto';
-import { UserService } from '../services/UserService';
-import { User } from '../entities/User';
+import { CreateUserDto } from '../dto';
+import { UserService } from '../services';
+import { User } from '../entities';
 import { TransformInterceptor } from '../interceptors/TransformInterceptor';
 import { async } from 'rxjs/internal/scheduler/async';
 import { AuthGuard } from '@nestjs/passport';
-import { UpdateUserDto } from '../dto/UpdateUserDto';
-import { AuthService } from '../services/AuthService';
-import { LoginUserDto } from '../dto/LoginUserDto';
+import { UpdateUserDto } from '../dto';
+import { AuthService } from '../services';
+import { LoginUserDto } from '../dto';
 import { AccessDeniedException } from '../exceptions/AccessDeniedException';
 import { ACGuard, UseRoles } from 'nest-access-control';
-import { UserRoles } from '../enums/UserRoles';
-import { ResetUserPasswordDto } from '../dto/ResetUserPasswordDto';
+import { UserRoles } from '../enums';
+import { ResetUserPasswordDto } from '../dto';
 
 
 @Controller('users')

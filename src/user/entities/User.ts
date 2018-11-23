@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { CreateUserDto } from '../dto/CreateUserDto';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { CreateUserDto } from '../dto';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
@@ -30,7 +30,6 @@ export class User {
   @Column()
   @Exclude()
   password: string;
-  
 
   get roles() {
     return [this.role];
@@ -38,7 +37,7 @@ export class User {
 
   @Column()
   role: string;
-   public static fromRegisterUserDto(createUserDto: CreateUserDto): User {
+  public static fromRegisterUserDto(createUserDto: CreateUserDto): User {
     shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
     const user = new User();
     user.email = createUserDto.email;

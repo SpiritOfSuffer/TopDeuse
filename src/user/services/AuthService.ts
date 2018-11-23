@@ -1,11 +1,11 @@
-import { UserService } from './UserService';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserService } from '../services';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from '../interfaces/JwtPayload';
-import { LoginUserDto } from '../dto/LoginUserDto';
-import { User } from '../entities/User';
+import { JwtPayload } from '../interfaces';
+import { LoginUserDto } from '../dto';
+import { User } from '../entities';
 import * as bcrypt from 'bcryptjs';
-import { InvalidCredentialsException } from '../exceptions/InvalidCredentialsException';
+import { InvalidCredentialsException } from '../exceptions';
 
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { IsString, IsEmail } from 'class-validator';
-import { User } from '../entities/User';
+import { User } from '../entities';
 
 export class CreateUserDto {
     @IsEmail() readonly email: string;

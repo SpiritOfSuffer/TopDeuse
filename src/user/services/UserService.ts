@@ -6,8 +6,8 @@ import { CreateUserDto } from '../dto/CreateUserDto';
 import { UpdateUserDto } from '../dto/UpdateUserDto';
 import { ADDRGETNETWORKPARAMS } from 'dns';
 import { MailerProvider } from '@nest-modules/mailer';
-import { ConfigService } from '../../config/ConfigService';
-import { ResetUserPasswordDto } from '../dto/ResetUserPasswordDto';
+import { ConfigService } from '../../config/services';
+import { ResetUserPasswordDto } from '../dto';
 import * as bcrypt from 'bcryptjs';
 
  @Injectable()

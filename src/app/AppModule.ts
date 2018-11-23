@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from '../user/UserModule';
+import { UserModule } from '../user';
 import { AppController } from './AppController';
-import { UserController } from '../user/controllers/UserController';
-import { UserService } from '../user/services/UserService';
-import { AuthService } from '../user/services/AuthService';
 import { AppService } from './AppService';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { User } from "../user/entities/User";
+import { User } from "../user/entities";
 import { ACGuard, UseRoles } from "nest-access-control";
 import { MailerModule } from '@nest-modules/mailer';
 
@@ -26,12 +23,9 @@ import { MailerModule } from '@nest-modules/mailer';
 ],
   controllers: [
     AppController,
-    UserController
 ],
   providers: [
     AppService,
-    AuthService,
-    UserService
   ],
 })
 export class AppModule {

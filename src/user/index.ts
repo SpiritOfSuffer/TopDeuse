@@ -1,18 +1,17 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './controllers/UserController';
-import { UserService } from './services/UserService';
+import { UserService } from './services';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/User';
-import { AuthService } from './services/AuthService';
+import { User } from './entities';
+import { AuthService } from './services';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategy/JwtStrategy';
+import { JwtStrategy } from './strategy';
 import { roles } from './Roles';
 import { AccessControlModule, RolesBuilder } from 'nest-access-control';
-import { ConfigModule } from '../config/ConfigModule';
-import { UserResolver } from './resolvers/UserResolver';
+import { ConfigModule } from '../config';
+import { UserResolver } from './resolvers';
 import { GraphQLModule } from '@nestjs/graphql';
-import { GqlAuthGuard } from './guards/GqlAuthGuard';
+import { GqlAuthGuard } from './guards';
 
 
 @Module({
@@ -34,7 +33,6 @@ import { GqlAuthGuard } from './guards/GqlAuthGuard';
       },
     }),
 ],
-  controllers: [UserController],
   providers: [
     UserService,
     AuthService,
