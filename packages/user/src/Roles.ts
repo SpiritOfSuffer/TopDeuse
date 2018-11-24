@@ -1,5 +1,5 @@
 import { RolesBuilder } from 'nest-access-control';
-import { UserRoles } from './enums';
+import { UserRoles } from '../../roles/src/enums';
 
  export const roles: RolesBuilder = new RolesBuilder();
  

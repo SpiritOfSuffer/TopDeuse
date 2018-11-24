@@ -8,7 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy';
 import { roles } from './Roles';
 import { AccessControlModule, RolesBuilder } from 'nest-access-control';
-import { ConfigModule } from '../config';
+import { ConfigModule } from '@goom/config';
 import { UserResolver } from './resolvers';
 import { GraphQLModule } from '@nestjs/graphql';
 import { GqlAuthGuard } from './guards';

@@ -1,24 +1,23 @@
 {
   "compilerOptions": {
+    "pretty": true,
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
-    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
     "target": "es6",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./"
+    "allowJs": true,
+    "lib": [
+      "es6",
+      "esnext"
+    ],
+    "baseUrl": "./packages",
+    "paths": {
+      "@goom/*": ["./*/src"]
+    }
   },
-  "include": [
-    "src/**/*", "mailerconfig.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
 }

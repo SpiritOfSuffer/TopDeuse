@@ -1,0 +1,22 @@
+{
+    "name": "@goom/app",
+    "version": "1.0.0",
+    "main": "src/index.ts",
+    "license": "MIT",
+    "scripts": {
+      "dev": "nodemon --exec node -r ts-node/register --watch src --watch ../config/src --watch ../user/src src/main.ts"
+    },
+    "dependencies": {
+      "@nest-modules/mailer": "^0.4.1",
+      "@nestjs/common": "^5.1.0",
+      "@nestjs/typeorm": "^5.2.2",
+      "pg": "^7.6.0",
+      "typeorm": "^0.2.8"
+    },
+    "devDependencies": {
+      "@types/node": "^10.0.8",
+      "nodemon": "^1.17.2",
+      "ts-node": "^7.0.0",
+      "tslint": "^5.9.1"
+    }
+  }
