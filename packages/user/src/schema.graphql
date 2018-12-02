@@ -1,0 +1,23 @@
+type User {
+  id: Int!
+  login: String!
+  fullname: String!
+  email: String!
+  role: String!
+}
+ type UserList {
+  rows: [User]!
+  count: Int!
+}
+ type SingInResponse {
+  token: String
+}
+ type Query {
+  getUser(id: Int!): User
+  signin(login: String!, password: String!) : SingInResponse!
+  users: UserList!
+  me: User!
+}
+ type Mutation {
+  updateProfile(id: Int!, fullname: String!) : User
+}
