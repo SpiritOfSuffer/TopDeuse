@@ -1,0 +1,11 @@
+{
+    "name": "@goom/config",
+    "version": "1.0.0",
+    "main": "src/index.ts",
+    "license": "MIT",
+    "dependencies": {
+      "@nestjs/common": "^5.1.0",
+      "@nestjs/core": "^5.1.0",
+      "dotenv": "^6.1.0"
+    }
+  }
