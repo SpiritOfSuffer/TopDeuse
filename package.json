@@ -24,7 +24,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "event-stream": "^4.0.1",
     "lerna": "^3.4.3"
   },
   "devDependencies": {
